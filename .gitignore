@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+.oh-my-skills-server.pid
+.skill-ledger-server.pid
+
+# Local scans can reveal private skill names, paths, and prompts.
+inventory/*
+!inventory/.gitkeep

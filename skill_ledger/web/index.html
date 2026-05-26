@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>oh-my-skills</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <pre class="brand-mark" aria-hidden="true">[oh]
+[my]</pre>
+          <div>
+            <p class="eyebrow" data-i18n="brandEyebrow">Local Skill Manager</p>
+            <h1>oh-my-skills</h1>
+          </div>
+        </div>
+        <div class="top-actions">
+          <div class="language-toggle" aria-label="Language">
+            <button id="langEnButton" type="button" class="ghost active">EN</button>
+            <button id="langKoButton" type="button" class="ghost">KR</button>
+          </div>
+          <button id="themeButton" type="button" class="ghost theme-toggle" data-marker="[ ]" aria-label="Toggle color theme">
+            <span id="themeButtonLabel">Dark</span>
+          </button>
+          <input id="searchInput" type="search" placeholder="Search skills" autocomplete="off" data-i18n-placeholder="searchPlaceholder" />
+          <button id="refreshButton" type="button" class="icon-button ghost" title="Refresh scan" aria-label="Refresh scan">[r]</button>
+          <button id="newButton" type="button" class="button-primary" data-marker="[+]"><span data-i18n="newSkill">New Skill</span></button>
+          <div class="top-cta-wrap">
+            <button
+              id="topCtaButton"
+              type="button"
+              class="cta-link top-cta"
+              aria-expanded="false"
+              aria-controls="topCtaMenu"
+              data-marker="[+]"
+            >
+              제작자 구독하기
+            </button>
+            <div id="topCtaMenu" class="top-cta-menu hidden" role="menu"></div>
+          </div>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="sidebar" aria-label="Inventory filters">
+          <section>
+            <h2 data-i18n="inventory">Inventory</h2>
+            <div class="metric-grid">
+              <div>
+                <span data-i18n="total">Total</span>
+                <strong id="totalCount">0</strong>
+              </div>
+              <div>
+                <span data-i18n="duplicates">Duplicates</span>
+                <strong id="duplicateCount">0</strong>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 data-i18n="sources">Sources</h2>
+            <div id="sourceFilters" class="filter-list"></div>
+          </section>
+
+          <section>
+            <h2 data-i18n="editableTargets">Editable Targets</h2>
+            <div id="targetList" class="path-list"></div>
+          </section>
+
+          <section id="ctaCard" class="cta-card">
+            <p class="eyebrow" data-i18n="openSource">Open Source</p>
+            <h2 id="ctaTitle">제작자 구독하기</h2>
+            <p id="ctaNote">Follow the creator on Threads, Instagram, YouTube, or GitHub.</p>
+            <div id="ctaLinks" class="cta-links"></div>
+          </section>
+        </aside>
+
+        <section class="list-pane" aria-label="Skill list">
+          <div class="list-head">
+            <span id="visibleCount">0 skills</span>
+            <a class="export-link" href="/api/export?format=markdown" target="_blank" rel="noreferrer" data-marker="[>]" data-i18n="exportMarkdown">Export Markdown</a>
+          </div>
+          <div id="skillList" class="skill-list"></div>
+        </section>
+
+        <section class="detail-pane" aria-label="Skill editor">
+          <div id="emptyState" class="empty-state">
+            <h2 data-i18n="selectSkill">Select a skill</h2>
+            <p data-i18n="selectSkillHint">Pick a skill to inspect or edit its SKILL.md.</p>
+          </div>
+
+          <div id="editorState" class="editor-state hidden">
+            <div class="editor-head">
+              <div>
+                <p id="detailSource" class="eyebrow"></p>
+                <h2 id="detailName"></h2>
+              </div>
+              <span id="editBadge" class="badge">Read-only</span>
+            </div>
+            <p id="detailDescription" class="description"></p>
+            <p id="detailPath" class="path"></p>
+            <textarea id="skillEditor" spellcheck="false"></textarea>
+            <div class="editor-actions">
+              <button id="saveButton" type="button" class="button-primary" data-marker="[x]" disabled><span data-i18n="save">Save</span></button>
+              <button id="archiveButton" type="button" class="danger" data-marker="[-]" disabled><span data-i18n="archive">Archive</span></button>
+              <span id="statusText" role="status"></span>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="newDialog">
+      <form id="newForm" method="dialog">
+        <header>
+          <h2 data-i18n="newSkill">New Skill</h2>
+          <button type="button" class="icon-button ghost" id="closeDialogButton" aria-label="Close dialog">[x]</button>
+        </header>
+        <label>
+          <span data-i18n="target">Target</span>
+          <select id="targetSelect" required></select>
+        </label>
+        <label>
+          <span data-i18n="name">Name</span>
+          <input id="skillNameInput" required maxlength="80" />
+        </label>
+        <label>
+          <span data-i18n="description">Description</span>
+          <textarea id="skillDescriptionInput" required rows="3"></textarea>
+        </label>
+        <label>
+          <span data-i18n="body">Body</span>
+          <textarea id="skillBodyInput" rows="8" placeholder="# Skill Name" data-i18n-placeholder="bodyPlaceholder"></textarea>
+        </label>
+        <footer>
+          <button type="button" id="cancelCreateButton" class="button-secondary" data-marker="[-]"><span data-i18n="cancel">Cancel</span></button>
+          <button type="submit" class="button-primary" data-marker="[+]"><span data-i18n="create">Create</span></button>
+        </footer>
+      </form>
+    </dialog>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

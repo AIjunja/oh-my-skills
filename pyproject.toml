@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oh-my-skills"
+version = "0.1.0"
+description = "Local GUI and CLI for managing Codex, Claude, and Agent Skills."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+  { name = "AIjunja" }
+]
+keywords = ["agent-skills", "codex", "claude", "skill-manager", "ai-agents"]
+dependencies = []
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Environment :: Web Environment",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Software Development",
+  "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/AIjunja/-oh-my-skills"
+Repository = "https://github.com/AIjunja/-oh-my-skills"
+Issues = "https://github.com/AIjunja/-oh-my-skills/issues"
+
+[project.scripts]
+oh-my-skills = "skill_ledger.cli:main"
+skill-ledger = "skill_ledger.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["skill_ledger*"]
+
+[tool.setuptools.package-data]
+skill_ledger = ["web/*.html", "web/*.css", "web/*.js"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

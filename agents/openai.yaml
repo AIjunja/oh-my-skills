@@ -1,0 +1,5 @@
+interface:
+  display_name: "Oh My Skills"
+  short_description: "Manage local Codex and Claude skills"
+  brand_color: "#201D1D"
+  default_prompt: "Use $oh-my-skills to open the local GUI and show my installed Codex and Claude skills."
