@@ -11,8 +11,9 @@ oh-my-skills manages local `SKILL.md` folders across Codex, Claude, and generic 
 
 1. If this repository is the current workspace, run commands from the repository root.
 2. If the user only has the skill installed, use the skill folder as the repository root.
-3. Prefer the GUI for interactive management and the CLI for reports or automation.
-4. Keep generated inventory files private unless the user explicitly wants to publish them.
+3. When the user invokes `$oh-my-skills` with a broad request such as "show my skills", "open the dashboard", "manage skills", or "Codex/Claude skills", launch the GUI dashboard. Do not replace the dashboard with a long text list unless the user explicitly asks for a text report.
+4. Use the CLI only for reports, automation, duplicate checks, or when the user specifically asks for terminal output.
+5. Keep generated inventory files private unless the user explicitly wants to publish them.
 
 ## Launch The GUI
 
