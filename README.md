@@ -41,7 +41,7 @@ By default, oh-my-skills scans:
 ### Run From Source
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git
+git clone https://github.com/AIjunja/oh-my-skills.git
 cd oh-my-skills
 python -m skill_ledger gui
 ```
@@ -60,7 +60,7 @@ port.
 After this repository is public, users can install it directly:
 
 ```bash
-pipx install git+https://github.com/AIjunja/-oh-my-skills.git
+pipx install git+https://github.com/AIjunja/oh-my-skills.git
 oh-my-skills gui
 ```
 
@@ -69,14 +69,14 @@ The legacy `skill-ledger` command is kept as a compatibility alias.
 Without `pipx`:
 
 ```bash
-python -m pip install git+https://github.com/AIjunja/-oh-my-skills.git
+python -m pip install git+https://github.com/AIjunja/oh-my-skills.git
 oh-my-skills gui
 ```
 
 ### Editable Development Install
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git
+git clone https://github.com/AIjunja/oh-my-skills.git
 cd oh-my-skills
 python -m pip install -e .
 oh-my-skills gui
@@ -182,20 +182,20 @@ tasks like:
 Install for Codex:
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git ~/.codex/skills/oh-my-skills
+git clone https://github.com/AIjunja/oh-my-skills.git ~/.codex/skills/oh-my-skills
 ```
 
 Install for Claude:
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git ~/.claude/skills/oh-my-skills
+git clone https://github.com/AIjunja/oh-my-skills.git ~/.claude/skills/oh-my-skills
 ```
 
 On Windows PowerShell, use:
 
 ```powershell
-git clone https://github.com/AIjunja/-oh-my-skills.git "$env:USERPROFILE\.codex\skills\oh-my-skills"
-git clone https://github.com/AIjunja/-oh-my-skills.git "$env:USERPROFILE\.claude\skills\oh-my-skills"
+git clone https://github.com/AIjunja/oh-my-skills.git "$env:USERPROFILE\.codex\skills\oh-my-skills"
+git clone https://github.com/AIjunja/oh-my-skills.git "$env:USERPROFILE\.claude\skills\oh-my-skills"
 ```
 
 ## Related Projects

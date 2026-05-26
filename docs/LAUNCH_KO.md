@@ -25,7 +25,7 @@ oh-my-skills는 이 문제를 로컬 대시보드로 해결합니다.
 ## 사용법
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git
+git clone https://github.com/AIjunja/oh-my-skills.git
 cd oh-my-skills
 python -m skill_ledger gui
 ```
@@ -48,7 +48,7 @@ python -m skill_ledger gui
 ## 설치형 사용
 
 ```bash
-pipx install git+https://github.com/AIjunja/-oh-my-skills.git
+pipx install git+https://github.com/AIjunja/oh-my-skills.git
 oh-my-skills gui
 ```
 
@@ -72,7 +72,7 @@ oh-my-skills는 Codex, Claude, Agent Skills를 한 번에 관리하는 로컬 GU
 python -m skill_ledger gui
 ```
 
-오픈소스: https://github.com/AIjunja/-oh-my-skills
+오픈소스: https://github.com/AIjunja/oh-my-skills
 
 제작자 채널:
 

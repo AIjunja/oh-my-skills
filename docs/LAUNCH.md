@@ -27,7 +27,7 @@ duplicates, safely edit user skills, and archive the ones you no longer want.
 
 ## Release Checklist
 
-- Confirm the GitHub repository exists at `https://github.com/AIjunja/-oh-my-skills`.
+- Confirm the GitHub repository exists at `https://github.com/AIjunja/oh-my-skills`.
 - Add screenshots or a short GIF to the README.
 - Run `python -m pytest`.
 - Run `python -m skill_ledger gui` and verify the GUI.
@@ -54,7 +54,7 @@ Run it:
 python -m skill_ledger gui
 ```
 
-Open source: https://github.com/AIjunja/-oh-my-skills
+Open source: https://github.com/AIjunja/oh-my-skills
 
 Creator channels:
 

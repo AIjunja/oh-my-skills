@@ -37,7 +37,7 @@ oh-my-skills가 답하는 질문은 아주 단순합니다.
 ### 소스에서 실행
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git
+git clone https://github.com/AIjunja/oh-my-skills.git
 cd oh-my-skills
 python -m skill_ledger gui
 ```
@@ -55,14 +55,14 @@ http://127.0.0.1:8765/
 공개 저장소로 올린 뒤에는 이렇게 설치할 수 있습니다.
 
 ```bash
-pipx install git+https://github.com/AIjunja/-oh-my-skills.git
+pipx install git+https://github.com/AIjunja/oh-my-skills.git
 oh-my-skills gui
 ```
 
 `pipx` 없이 설치하려면:
 
 ```bash
-python -m pip install git+https://github.com/AIjunja/-oh-my-skills.git
+python -m pip install git+https://github.com/AIjunja/oh-my-skills.git
 oh-my-skills gui
 ```
 
@@ -71,7 +71,7 @@ oh-my-skills gui
 ### 개발용 설치
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git
+git clone https://github.com/AIjunja/oh-my-skills.git
 cd oh-my-skills
 python -m pip install -e .
 oh-my-skills gui
@@ -171,20 +171,20 @@ oh-my-skills는 보수적으로 동작합니다.
 Codex:
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git ~/.codex/skills/oh-my-skills
+git clone https://github.com/AIjunja/oh-my-skills.git ~/.codex/skills/oh-my-skills
 ```
 
 Claude:
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git ~/.claude/skills/oh-my-skills
+git clone https://github.com/AIjunja/oh-my-skills.git ~/.claude/skills/oh-my-skills
 ```
 
 Windows PowerShell:
 
 ```powershell
-git clone https://github.com/AIjunja/-oh-my-skills.git "$env:USERPROFILE\.codex\skills\oh-my-skills"
-git clone https://github.com/AIjunja/-oh-my-skills.git "$env:USERPROFILE\.claude\skills\oh-my-skills"
+git clone https://github.com/AIjunja/oh-my-skills.git "$env:USERPROFILE\.codex\skills\oh-my-skills"
+git clone https://github.com/AIjunja/oh-my-skills.git "$env:USERPROFILE\.claude\skills\oh-my-skills"
 ```
 
 ## 관련 프로젝트

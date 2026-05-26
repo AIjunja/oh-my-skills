@@ -51,20 +51,20 @@ python -m skill_ledger doctor
 Codex:
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git ~/.codex/skills/oh-my-skills
+git clone https://github.com/AIjunja/oh-my-skills.git ~/.codex/skills/oh-my-skills
 ```
 
 Claude:
 
 ```bash
-git clone https://github.com/AIjunja/-oh-my-skills.git ~/.claude/skills/oh-my-skills
+git clone https://github.com/AIjunja/oh-my-skills.git ~/.claude/skills/oh-my-skills
 ```
 
 Windows PowerShell:
 
 ```powershell
-git clone https://github.com/AIjunja/-oh-my-skills.git "$env:USERPROFILE\.codex\skills\oh-my-skills"
-git clone https://github.com/AIjunja/-oh-my-skills.git "$env:USERPROFILE\.claude\skills\oh-my-skills"
+git clone https://github.com/AIjunja/oh-my-skills.git "$env:USERPROFILE\.codex\skills\oh-my-skills"
+git clone https://github.com/AIjunja/oh-my-skills.git "$env:USERPROFILE\.claude\skills\oh-my-skills"
 ```
 
 ## Safety Rules
