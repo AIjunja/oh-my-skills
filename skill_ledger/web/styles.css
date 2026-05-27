@@ -60,6 +60,7 @@ html[data-theme="dark"] {
 html,
 body {
   margin: 0;
+  height: 100%;
   min-height: 100%;
   background: var(--canvas);
   color: var(--ink);
@@ -163,9 +164,11 @@ button.danger:active {
 }
 
 .app-shell {
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 0;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
 }
 
 .topbar {
@@ -835,5 +838,483 @@ dialog footer {
   .editor-actions button,
   dialog footer button {
     width: 100%;
+  }
+}
+
+/* Redesigned inventory console */
+.workspace {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(560px, 1.45fr) minmax(420px, 0.95fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.inventory-pane {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto auto auto minmax(0, 1fr) auto auto;
+  overflow: hidden;
+  border-right: 1px solid var(--hairline);
+  background: var(--canvas);
+}
+
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-bottom: 1px solid var(--hairline);
+}
+
+.summary-card {
+  min-width: 0;
+  padding: 10px 14px;
+  border-right: 1px solid var(--hairline);
+}
+
+.summary-card:last-child {
+  border-right: 0;
+}
+
+.summary-card span,
+.summary-card strong {
+  display: block;
+}
+
+.summary-card span {
+  overflow: hidden;
+  color: var(--mute);
+  font-size: 13px;
+  line-height: 1.7;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summary-card strong {
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.summary-card:nth-child(4) strong {
+  color: var(--warning);
+}
+
+.control-strip {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(120px, auto) auto;
+  gap: 12px;
+  align-items: end;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--surface-soft);
+}
+
+.control-group,
+.select-control {
+  min-width: 0;
+}
+
+.source-control {
+  grid-column: 1 / -1;
+  overflow: hidden;
+}
+
+.utility-control {
+  min-width: 210px;
+}
+
+.chip-row,
+.segmented-control,
+.page-buttons,
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.chip-row {
+  flex-wrap: wrap;
+}
+
+.chip-button,
+.segmented-control button,
+.page-button {
+  min-height: 32px;
+  border-color: var(--hairline);
+  background: var(--canvas);
+  color: var(--body);
+  padding: 1px 10px;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.chip-button[data-marker]::before {
+  content: attr(data-marker);
+  margin-right: 6px;
+  color: var(--mute);
+}
+
+.chip-button strong {
+  margin-left: 7px;
+  color: var(--mute);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chip-button.active,
+.segmented-control button.active,
+.page-button.active {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+.chip-button.active::before,
+.chip-button.active strong {
+  color: var(--canvas);
+}
+
+.select-control {
+  display: grid;
+  gap: 2px;
+}
+
+.select-control select {
+  height: 32px;
+  min-width: 118px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  background: var(--canvas);
+  color: var(--ink);
+  padding: 0 8px;
+}
+
+.list-head {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--canvas);
+  color: var(--mute);
+}
+
+.skill-table-head {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(120px, 0.28fr) minmax(120px, 0.28fr);
+  gap: 12px;
+  padding: 7px 14px 7px 50px;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--surface-card);
+  color: var(--mute);
+  font-size: 12px;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
+.skill-list {
+  min-height: 0;
+  overflow: auto;
+  display: block;
+}
+
+.skill-row {
+  display: grid;
+  grid-template-columns: 24px minmax(260px, 1fr) minmax(120px, 0.28fr) minmax(120px, 0.28fr);
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 54px;
+  padding: 8px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--hairline);
+  border-radius: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  text-align: left;
+}
+
+.skill-row::before {
+  content: none;
+}
+
+.skill-row:hover {
+  background: var(--surface-soft);
+}
+
+.skill-row.active {
+  background: var(--surface-card);
+}
+
+.row-marker {
+  color: var(--mute);
+  font-weight: 500;
+}
+
+.skill-row.active .row-marker {
+  color: var(--ink);
+}
+
+.skill-main {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.skill-main strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.skill-description {
+  overflow: hidden;
+  color: var(--body);
+  font-size: 13px;
+  line-height: 1.45;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.skill-source {
+  overflow: hidden;
+  color: var(--mute);
+  font-size: 13px;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.skill-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  padding: 0 6px;
+  background: var(--surface-soft);
+  color: var(--mute);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.status-badge.editable {
+  border-color: rgba(48, 209, 88, 0.42);
+  color: var(--success-ink);
+}
+
+.status-badge.duplicate {
+  border-color: rgba(255, 159, 10, 0.5);
+  color: var(--warning);
+}
+
+.list-empty {
+  display: grid;
+  align-content: center;
+  min-height: 220px;
+  padding: 24px 50px;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--body);
+}
+
+.list-empty h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.list-empty h2::before {
+  content: "[-] ";
+  color: var(--mute);
+}
+
+.list-empty p {
+  margin: 8px 0 0;
+}
+
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 8px 14px;
+  border-top: 1px solid var(--hairline);
+  background: var(--canvas);
+  color: var(--mute);
+  font-size: 13px;
+}
+
+.pagination-controls {
+  justify-content: flex-end;
+}
+
+.pagination-controls button {
+  min-height: 32px;
+  font-size: 13px;
+}
+
+.page-buttons {
+  gap: 4px;
+}
+
+.page-button {
+  min-width: 32px;
+  padding: 0 8px;
+}
+
+.page-ellipsis {
+  color: var(--mute);
+  padding: 0 3px;
+}
+
+.creator-panel {
+  max-height: 120px;
+  overflow: auto;
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--hairline);
+  background: var(--surface-soft);
+}
+
+.creator-panel h2 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.creator-panel p:not(.eyebrow) {
+  margin: 0;
+  color: var(--body);
+  font-size: 13px;
+}
+
+.creator-panel .cta-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.creator-panel .cta-link {
+  min-height: 32px;
+  padding: 1px 10px;
+  font-size: 13px;
+}
+
+.detail-pane {
+  min-height: 0;
+  overflow: auto;
+}
+
+@media (max-width: 1180px) {
+  .workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(460px, 58vh) minmax(0, 1fr);
+  }
+
+  .inventory-pane {
+    border-right: 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .control-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .workspace {
+    min-height: auto;
+    grid-template-rows: auto auto;
+  }
+
+  .inventory-pane {
+    display: block;
+    overflow: visible;
+  }
+
+  .skill-list {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .summary-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .summary-card:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .summary-card:last-child {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .control-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .utility-control {
+    min-width: 0;
+  }
+
+  .skill-table-head {
+    display: none;
+  }
+
+  .skill-row {
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 8px 10px;
+    min-height: 72px;
+  }
+
+  .skill-main {
+    grid-column: 2;
+  }
+
+  .skill-source,
+  .skill-status {
+    grid-column: 2;
+  }
+
+  .skill-source {
+    order: 3;
+  }
+
+  .skill-status {
+    order: 4;
+  }
+
+  .pagination-bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pagination-controls {
+    justify-content: space-between;
+  }
+
+  .page-buttons {
+    overflow-x: auto;
   }
 }
