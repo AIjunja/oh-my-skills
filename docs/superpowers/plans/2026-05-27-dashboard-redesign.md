@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Redesign the oh-my-skills dashboard into a clearer paginated inventory console for 300+ local skills.
+**Goal:** Keep the original oh-my-skills three-pane dashboard while adding pagination and improving typography for 300+ local skills.
 
-**Architecture:** Keep the existing Python API unchanged and implement the redesign client-side in the static web app. Add pagination, filtering, status derivation, and denser table/list rendering in `app.js`, then update `index.html` and `styles.css` to support the new summary, filters, and responsive layout.
+**Architecture:** Keep the existing Python API unchanged and implement pagination client-side in the static web app. Preserve the original sidebar/list/editor layout, add page-size and pagination controls in `app.js` and `index.html`, then update `styles.css` to use a more readable UI font while retaining monospace accents for code and ASCII markers.
 
 **Tech Stack:** Python standard-library HTTP server, vanilla HTML/CSS/JavaScript, existing pytest suite, local browser verification.
 

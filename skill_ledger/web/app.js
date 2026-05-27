@@ -1,5 +1,3 @@
-const validPageSizes = [10, 30, 50];
-
 const state = {
   report: null,
   selectedId: null,
@@ -12,9 +10,6 @@ const state = {
   selectedSkill: null,
   pageSize: normalizePageSize(localStorage.getItem("oh-my-skills-page-size")),
   currentPage: 1,
-  showDuplicatesOnly: false,
-  showEditableOnly: false,
-  sortKey: localStorage.getItem("oh-my-skills-sort") || "name",
 };
 
 const translations = {
@@ -33,14 +28,10 @@ const translations = {
     description: "Description",
     discardConfirm: "Discard unsaved changes?",
     duplicates: "Duplicates",
-    duplicatesOnly: "Duplicates",
     editable: "Editable",
-    editableMetric: "Editable",
-    editableOnly: "Editable only",
     editableSkillLoaded: "Editable skill loaded",
     editableTargets: "Editable Targets",
     exportMarkdown: "Export Markdown",
-    filters: "Filters",
     followUpdates: "제작자 구독하기",
     inventory: "Inventory",
     name: "Name",
@@ -54,7 +45,6 @@ const translations = {
     pageSize: "Page size",
     previous: "Prev",
     readOnly: "Read-only",
-    readOnlyMetric: "Read-only",
     readOnlySkillLoaded: "Read-only skill loaded",
     ready: "Ready",
     save: "Save",
@@ -67,14 +57,7 @@ const translations = {
     showingEmpty: "Showing 0 of 0",
     showingRange: "Showing {start}-{end} of {total}",
     skillCount: "{count} skills",
-    sortBy: "Sort",
-    sortName: "Name",
-    sortSource: "Source",
-    sortUpdated: "Updated",
-    sourceAll: "All",
-    sourceHeader: "Source",
     sources: "Sources",
-    statusHeader: "Status",
     target: "Target",
     themeDark: "Dark",
     themeLight: "Light",
@@ -97,14 +80,10 @@ const translations = {
     description: "설명",
     discardConfirm: "저장하지 않은 변경사항을 버릴까요?",
     duplicates: "중복",
-    duplicatesOnly: "중복만",
     editable: "편집 가능",
-    editableMetric: "편집 가능",
-    editableOnly: "편집 가능만",
     editableSkillLoaded: "편집 가능한 스킬을 불러왔어요",
     editableTargets: "편집 가능한 위치",
     exportMarkdown: "Markdown 내보내기",
-    filters: "필터",
     followUpdates: "제작자 구독하기",
     inventory: "인벤토리",
     name: "이름",
@@ -118,7 +97,6 @@ const translations = {
     pageSize: "페이지 크기",
     previous: "이전",
     readOnly: "읽기 전용",
-    readOnlyMetric: "읽기 전용",
     readOnlySkillLoaded: "읽기 전용 스킬을 불러왔어요",
     ready: "준비됨",
     save: "저장",
@@ -131,14 +109,7 @@ const translations = {
     showingEmpty: "0개 중 0개 표시",
     showingRange: "{total}개 중 {start}-{end} 표시",
     skillCount: "{count}개 스킬",
-    sortBy: "정렬",
-    sortName: "이름",
-    sortSource: "출처",
-    sortUpdated: "수정일",
-    sourceAll: "전체",
-    sourceHeader: "출처",
     sources: "출처",
-    statusHeader: "상태",
     target: "대상",
     themeDark: "다크",
     themeLight: "라이트",
@@ -150,21 +121,15 @@ const translations = {
 
 const els = {
   totalCount: document.querySelector("#totalCount"),
-  editableCount: document.querySelector("#editableCount"),
-  readOnlyCount: document.querySelector("#readOnlyCount"),
   duplicateCount: document.querySelector("#duplicateCount"),
-  sourceCount: document.querySelector("#sourceCount"),
   visibleCount: document.querySelector("#visibleCount"),
-  sourceFilters: document.querySelector("#sourceFilters"),
-  duplicatesOnlyButton: document.querySelector("#duplicatesOnlyButton"),
-  editableOnlyButton: document.querySelector("#editableOnlyButton"),
-  sortSelect: document.querySelector("#sortSelect"),
-  pageSizeButtons: document.querySelector("#pageSizeButtons"),
   pageRange: document.querySelector("#pageRange"),
+  pageSizeButtons: document.querySelector("#pageSizeButtons"),
   pageButtons: document.querySelector("#pageButtons"),
   prevPageButton: document.querySelector("#prevPageButton"),
   nextPageButton: document.querySelector("#nextPageButton"),
   listEmptyState: document.querySelector("#listEmptyState"),
+  sourceFilters: document.querySelector("#sourceFilters"),
   targetList: document.querySelector("#targetList"),
   ctaCard: document.querySelector("#ctaCard"),
   ctaTitle: document.querySelector("#ctaTitle"),
@@ -217,31 +182,13 @@ els.closeDialogButton.addEventListener("click", () => els.newDialog.close());
 els.cancelCreateButton.addEventListener("click", () => els.newDialog.close());
 els.saveButton.addEventListener("click", () => saveSelectedSkill());
 els.archiveButton.addEventListener("click", () => archiveSelectedSkill());
-els.duplicatesOnlyButton.addEventListener("click", () => {
-  state.showDuplicatesOnly = !state.showDuplicatesOnly;
-  resetPage();
-  renderControls();
-  renderList();
-});
-els.editableOnlyButton.addEventListener("click", () => {
-  state.showEditableOnly = !state.showEditableOnly;
-  resetPage();
-  renderControls();
-  renderList();
-});
-els.sortSelect.addEventListener("change", () => {
-  state.sortKey = els.sortSelect.value;
-  localStorage.setItem("oh-my-skills-sort", state.sortKey);
-  resetPage();
-  renderList();
-});
 els.pageSizeButtons.addEventListener("click", (event) => {
   const button = event.target.closest("[data-page-size]");
   if (!button) return;
   state.pageSize = normalizePageSize(button.dataset.pageSize);
   localStorage.setItem("oh-my-skills-page-size", String(state.pageSize));
   resetPage();
-  renderControls();
+  renderPageSizeButtons();
   renderList();
 });
 els.prevPageButton.addEventListener("click", () => {
@@ -281,67 +228,36 @@ async function loadState() {
   setStatus(t("scanning"));
   const report = await fetchJson("/api/state");
   state.report = report;
-  reconcileSelectedSources(Object.keys(report.by_source || {}));
+  state.selectedSources = new Set(Object.keys(report.by_source || {}));
   renderSummary();
   renderFilters();
   renderTargets();
   renderCta();
-  renderControls();
+  renderPageSizeButtons();
   renderList();
   setStatus(t("ready"));
 }
 
 function renderSummary() {
-  const skills = state.report?.skills || [];
-  const total = state.report?.total_skills ?? skills.length;
-  const editable = skills.filter((skill) => isEditableSkill(skill)).length;
-  const duplicateGroups = Object.keys(state.report?.duplicate_names || {}).length;
-  const sources = Object.keys(state.report?.by_source || {}).length;
-
-  els.totalCount.textContent = String(total);
-  els.editableCount.textContent = String(editable);
-  els.readOnlyCount.textContent = String(Math.max(0, total - editable));
-  els.duplicateCount.textContent = String(duplicateGroups);
-  els.sourceCount.textContent = String(sources);
+  els.totalCount.textContent = String(state.report.total_skills || 0);
+  els.duplicateCount.textContent = String(Object.keys(state.report.duplicate_names || {}).length);
 }
 
 function renderFilters() {
-  const sources = Object.entries(state.report?.by_source || {});
-  const allSelected = areAllSourcesSelected();
-
   els.sourceFilters.replaceChildren();
-  els.sourceFilters.append(
-    createSourceButton(t("sourceAll"), totalSourceCount(), allSelected, () => {
-      state.selectedSources = new Set(sources.map(([source]) => source));
+  for (const [source, count] of Object.entries(state.report.by_source || {})) {
+    const label = document.createElement("label");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = state.selectedSources.has(source);
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) state.selectedSources.add(source);
+      else state.selectedSources.delete(source);
       resetPage();
-      renderFilters();
       renderList();
-    }),
-  );
-
-  for (const [source, count] of sources) {
-    els.sourceFilters.append(
-      createSourceButton(source, count, state.selectedSources.has(source), () => {
-        if (state.selectedSources.has(source) && state.selectedSources.size > 1) {
-          state.selectedSources.delete(source);
-        } else {
-          state.selectedSources.add(source);
-        }
-        resetPage();
-        renderFilters();
-        renderList();
-      }),
-    );
-  }
-}
-
-function renderControls() {
-  setToggleButton(els.duplicatesOnlyButton, state.showDuplicatesOnly);
-  setToggleButton(els.editableOnlyButton, state.showEditableOnly);
-  els.sortSelect.value = state.sortKey;
-
-  for (const button of els.pageSizeButtons.querySelectorAll("[data-page-size]")) {
-    button.classList.toggle("active", Number(button.dataset.pageSize) === state.pageSize);
+    });
+    label.append(checkbox, `${source} (${count})`);
+    els.sourceFilters.append(label);
   }
 }
 
@@ -383,7 +299,7 @@ function renderCta() {
   els.topCtaButton.disabled = !hasLinks;
   els.topCtaButton.setAttribute("aria-disabled", hasLinks ? "false" : "true");
 
-  els.ctaCard.classList.add("hidden");
+  els.ctaCard.classList.toggle("hidden", !hasLinks);
   els.topCtaButton.classList.toggle("hidden", !hasLinks);
   if (!hasLinks) setTopCtaMenuOpen(false);
 }
@@ -428,24 +344,38 @@ function renderList() {
 
   for (const skill of pageSkills) {
     const row = document.createElement("button");
-    const selected = skill.id === state.selectedId;
-    row.className = `skill-row${selected ? " active" : ""}`;
+    row.className = `skill-row${skill.id === state.selectedId ? " active" : ""}`;
     row.type = "button";
-    row.setAttribute("aria-pressed", selected ? "true" : "false");
     row.innerHTML = `
-      <span class="row-marker">${selected ? "[x]" : "[ ]"}</span>
-      <span class="skill-main">
+      <span>
         <strong>${escapeHtml(skill.name)}</strong>
-        <span class="skill-description">${escapeHtml(skill.description || t("noDescription"))}</span>
+        <p>${escapeHtml(skill.description || t("noDescription"))}</p>
       </span>
-      <span class="skill-source">${escapeHtml(skill.source)}</span>
-      <span class="skill-status">${statusBadges(skill).join("")}</span>
+      <span class="tag">${escapeHtml(skill.source)}</span>
     `;
     row.addEventListener("click", () => selectSkill(skill.id));
     els.skillList.append(row);
   }
 
   renderPagination(skills.length, start, end);
+}
+
+function filteredSkills() {
+  const query = state.query;
+  return (state.report.skills || []).filter((skill) => {
+    if (!state.selectedSources.has(skill.source)) return false;
+    if (!query) return true;
+    return [skill.name, skill.description, skill.path, skill.source]
+      .join(" ")
+      .toLowerCase()
+      .includes(query);
+  });
+}
+
+function renderPageSizeButtons() {
+  for (const button of els.pageSizeButtons.querySelectorAll("[data-page-size]")) {
+    button.classList.toggle("active", Number(button.dataset.pageSize) === state.pageSize);
+  }
 }
 
 function renderPagination(total, start, end) {
@@ -475,20 +405,37 @@ function renderPagination(total, start, end) {
   }
 }
 
-function filteredSkills() {
-  const query = state.query;
-  const skills = (state.report?.skills || []).filter((skill) => {
-    if (!state.selectedSources.has(skill.source)) return false;
-    if (state.showDuplicatesOnly && !isDuplicateSkill(skill)) return false;
-    if (state.showEditableOnly && !isEditableSkill(skill)) return false;
-    if (!query) return true;
-    return [skill.name, skill.description, skill.path, skill.source]
-      .join(" ")
-      .toLowerCase()
-      .includes(query);
-  });
+function resetPage() {
+  state.currentPage = 1;
+}
 
-  return [...skills].sort((left, right) => compareSkills(left, right));
+function clampCurrentPage(total) {
+  const totalPages = totalPageCount(total);
+  state.currentPage = Math.min(Math.max(1, state.currentPage), totalPages);
+}
+
+function totalPageCount(total) {
+  return Math.max(1, Math.ceil(total / state.pageSize));
+}
+
+function compactPages(current, total) {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, index) => index + 1);
+  }
+  const pages = new Set([1, total, current, current - 1, current + 1]);
+  const sorted = [...pages].filter((page) => page >= 1 && page <= total).sort((a, b) => a - b);
+  const compact = [];
+  for (const page of sorted) {
+    const previous = compact[compact.length - 1];
+    if (typeof previous === "number" && page - previous > 1) compact.push("...");
+    compact.push(page);
+  }
+  return compact;
+}
+
+function normalizePageSize(value) {
+  const size = Number(value);
+  return [10, 30, 50].includes(size) ? size : 30;
 }
 
 async function selectSkill(skillId) {
@@ -594,13 +541,8 @@ function setLanguage(lang) {
   state.lang = lang;
   localStorage.setItem("oh-my-skills-lang", lang);
   applyLanguage();
-  if (state.report) {
-    renderSummary();
-    renderFilters();
-    renderControls();
-    renderCta();
-    renderList();
-  }
+  renderList();
+  if (state.report) renderCta();
   if (state.selectedId) {
     const editable = els.saveButton.dataset.editable === "true";
     els.editBadge.textContent = editable ? t("editable") : t("readOnly");
@@ -646,104 +588,6 @@ function t(key, values = {}) {
     value = value.replace(`{${name}}`, String(replacement));
   }
   return value;
-}
-
-function createSourceButton(label, count, active, onClick) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = `chip-button${active ? " active" : ""}`;
-  button.dataset.marker = active ? "[x]" : "[ ]";
-  button.innerHTML = `<span>${escapeHtml(label)}</span><strong>${escapeHtml(count)}</strong>`;
-  button.addEventListener("click", onClick);
-  return button;
-}
-
-function setToggleButton(button, active) {
-  button.classList.toggle("active", active);
-  button.dataset.marker = active ? "[x]" : "[ ]";
-  button.setAttribute("aria-pressed", active ? "true" : "false");
-}
-
-function statusBadges(skill) {
-  const badges = [];
-  if (isDuplicateSkill(skill)) badges.push(`<span class="status-badge duplicate">[dup]</span>`);
-  badges.push(
-    isEditableSkill(skill)
-      ? `<span class="status-badge editable">[edit]</span>`
-      : `<span class="status-badge readonly">[ro]</span>`,
-  );
-  return badges;
-}
-
-function compareSkills(left, right) {
-  if (state.sortKey === "source") {
-    return `${left.source} ${left.name}`.localeCompare(`${right.source} ${right.name}`);
-  }
-  if (state.sortKey === "modified") {
-    return String(right.modified_at || "").localeCompare(String(left.modified_at || ""));
-  }
-  return String(left.name || "").localeCompare(String(right.name || ""));
-}
-
-function isDuplicateSkill(skill) {
-  const duplicates = state.report?.duplicate_names || {};
-  return Array.isArray(duplicates[skill.name]) && duplicates[skill.name].length > 1;
-}
-
-function isEditableSkill(skill) {
-  const targets = state.report?.editable_targets || {};
-  return Object.prototype.hasOwnProperty.call(targets, skill.source);
-}
-
-function reconcileSelectedSources(sources) {
-  if (!state.selectedSources.size) {
-    state.selectedSources = new Set(sources);
-    return;
-  }
-  state.selectedSources = new Set([...state.selectedSources].filter((source) => sources.includes(source)));
-  if (!state.selectedSources.size) state.selectedSources = new Set(sources);
-}
-
-function areAllSourcesSelected() {
-  const sources = Object.keys(state.report?.by_source || {});
-  return sources.length > 0 && sources.every((source) => state.selectedSources.has(source));
-}
-
-function totalSourceCount() {
-  return Object.values(state.report?.by_source || {}).reduce((sum, count) => sum + Number(count), 0);
-}
-
-function resetPage() {
-  state.currentPage = 1;
-}
-
-function clampCurrentPage(total) {
-  const totalPages = totalPageCount(total);
-  state.currentPage = Math.min(Math.max(1, state.currentPage), totalPages);
-}
-
-function totalPageCount(total) {
-  return Math.max(1, Math.ceil(total / state.pageSize));
-}
-
-function compactPages(current, total) {
-  if (total <= 7) {
-    return Array.from({ length: total }, (_, index) => index + 1);
-  }
-  const pages = new Set([1, total, current, current - 1, current + 1]);
-  const sorted = [...pages].filter((page) => page >= 1 && page <= total).sort((a, b) => a - b);
-  const compact = [];
-  for (const page of sorted) {
-    const previous = compact[compact.length - 1];
-    if (typeof previous === "number" && page - previous > 1) compact.push("...");
-    compact.push(page);
-  }
-  return compact;
-}
-
-function normalizePageSize(value) {
-  const size = Number(value);
-  return validPageSizes.includes(size) ? size : 30;
 }
 
 function escapeHtml(value) {

@@ -36,9 +36,8 @@
               aria-expanded="false"
               aria-controls="topCtaMenu"
               data-marker="[+]"
-              data-i18n="followUpdates"
             >
-              Follow builds
+              제작자 구독하기
             </button>
             <div id="topCtaMenu" class="top-cta-menu hidden" role="menu"></div>
           </div>
@@ -46,96 +45,64 @@
       </header>
 
       <main class="workspace">
-        <section class="inventory-pane" aria-label="Skill inventory">
-          <section class="summary-strip" aria-label="Inventory summary">
-            <div class="summary-card">
-              <span data-i18n="total">Total</span>
-              <strong id="totalCount">0</strong>
-            </div>
-            <div class="summary-card">
-              <span data-i18n="editableMetric">Editable</span>
-              <strong id="editableCount">0</strong>
-            </div>
-            <div class="summary-card">
-              <span data-i18n="readOnlyMetric">Read-only</span>
-              <strong id="readOnlyCount">0</strong>
-            </div>
-            <div class="summary-card">
-              <span data-i18n="duplicates">Duplicates</span>
-              <strong id="duplicateCount">0</strong>
-            </div>
-            <div class="summary-card">
-              <span data-i18n="sources">Sources</span>
-              <strong id="sourceCount">0</strong>
+        <aside class="sidebar" aria-label="Inventory filters">
+          <section>
+            <h2 data-i18n="inventory">Inventory</h2>
+            <div class="metric-grid">
+              <div>
+                <span data-i18n="total">Total</span>
+                <strong id="totalCount">0</strong>
+              </div>
+              <div>
+                <span data-i18n="duplicates">Duplicates</span>
+                <strong id="duplicateCount">0</strong>
+              </div>
             </div>
           </section>
 
-          <section class="control-strip" aria-label="Inventory controls">
-            <div class="control-group source-control">
-              <p class="eyebrow" data-i18n="sources">Sources</p>
-              <div id="sourceFilters" class="chip-row"></div>
+          <section>
+            <h2 data-i18n="sources">Sources</h2>
+            <div id="sourceFilters" class="filter-list"></div>
+          </section>
+
+          <section>
+            <h2 data-i18n="editableTargets">Editable Targets</h2>
+            <div id="targetList" class="path-list"></div>
+          </section>
+
+          <section id="ctaCard" class="cta-card">
+            <p class="eyebrow" data-i18n="openSource">Open Source</p>
+            <h2 id="ctaTitle">제작자 구독하기</h2>
+            <p id="ctaNote">Follow the creator on Threads, Instagram, YouTube, or GitHub.</p>
+            <div id="ctaLinks" class="cta-links"></div>
+          </section>
+        </aside>
+
+        <section class="list-pane" aria-label="Skill list">
+          <div class="list-head">
+            <div class="list-counts">
+              <span id="visibleCount">0 skills</span>
+              <span id="pageRange">Showing 0 of 0</span>
             </div>
-            <div class="control-group utility-control">
-              <p class="eyebrow" data-i18n="filters">Filters</p>
-              <div class="chip-row">
-                <button id="duplicatesOnlyButton" type="button" class="chip-button" data-marker="[ ]">
-                  <span data-i18n="duplicatesOnly">Duplicates</span>
-                </button>
-                <button id="editableOnlyButton" type="button" class="chip-button" data-marker="[ ]">
-                  <span data-i18n="editableOnly">Editable only</span>
-                </button>
-              </div>
-            </div>
-            <label class="select-control">
-              <span class="eyebrow" data-i18n="sortBy">Sort</span>
-              <select id="sortSelect">
-                <option value="name" data-i18n="sortName">Name</option>
-                <option value="source" data-i18n="sortSource">Source</option>
-                <option value="modified" data-i18n="sortUpdated">Updated</option>
-              </select>
-            </label>
-            <div class="control-group page-size-control">
-              <p class="eyebrow" data-i18n="pageSize">Page size</p>
-              <div id="pageSizeButtons" class="segmented-control" role="group" aria-label="Page size">
+            <div class="list-actions">
+              <div id="pageSizeButtons" class="page-size-buttons" role="group" aria-label="Page size">
                 <button type="button" class="ghost" data-page-size="10">10</button>
                 <button type="button" class="ghost active" data-page-size="30">30</button>
                 <button type="button" class="ghost" data-page-size="50">50</button>
               </div>
+              <a class="export-link" href="/api/export?format=markdown" target="_blank" rel="noreferrer" data-marker="[>]" data-i18n="exportMarkdown">Export Markdown</a>
             </div>
-          </section>
-
-          <div class="list-head">
-            <span id="visibleCount">0 skills</span>
-            <a class="export-link" href="/api/export?format=markdown" target="_blank" rel="noreferrer" data-marker="[>]" data-i18n="exportMarkdown">Export Markdown</a>
-          </div>
-
-          <div class="skill-table-head" aria-hidden="true">
-            <span data-i18n="name">Name</span>
-            <span data-i18n="sourceHeader">Source</span>
-            <span data-i18n="statusHeader">Status</span>
           </div>
           <div id="skillList" class="skill-list"></div>
           <div id="listEmptyState" class="list-empty hidden">
             <h2 data-i18n="noMatches">No matching skills</h2>
             <p data-i18n="noMatchesHint">Try changing your search or filters.</p>
           </div>
-
           <footer class="pagination-bar" aria-label="Pagination">
-            <span id="pageRange">Showing 0 of 0</span>
-            <div class="pagination-controls">
-              <button id="prevPageButton" type="button" class="ghost" data-marker="[<]"><span data-i18n="previous">Prev</span></button>
-              <div id="pageButtons" class="page-buttons"></div>
-              <button id="nextPageButton" type="button" class="ghost" data-marker="[>]"><span data-i18n="next">Next</span></button>
-            </div>
+            <button id="prevPageButton" type="button" class="ghost" data-marker="[<]"><span data-i18n="previous">Prev</span></button>
+            <div id="pageButtons" class="page-buttons"></div>
+            <button id="nextPageButton" type="button" class="ghost" data-marker="[>]"><span data-i18n="next">Next</span></button>
           </footer>
-
-          <section id="ctaCard" class="creator-panel hidden">
-            <p class="eyebrow" data-i18n="openSource">Open Source</p>
-            <h2 id="ctaTitle">Follow builds</h2>
-            <p id="ctaNote">Follow the creator on Threads, Instagram, YouTube, or GitHub.</p>
-            <div id="ctaLinks" class="cta-links"></div>
-          </section>
-          <div id="targetList" class="hidden"></div>
         </section>
 
         <section class="detail-pane" aria-label="Skill editor">

@@ -13,11 +13,14 @@ Make the dashboard easier to scan when the user has hundreds of local skills. Ke
 
 ## Recommended Direction
 
-Use an "OpenCode skin, GitHub Issues UX" design:
+Revision after visual review: keep the original three-pane dashboard layout because it is easier to understand at a glance. Add pagination and improve typography without replacing the dashboard with a table-heavy console.
 
-- Keep the cream/ink palette, monospaced type, 1px borders, 4px radius, and ASCII markers.
-- Move high-frequency controls to the top of the list: search, source filter chips, duplicate/editable filters, sort, and page size.
-- Replace the card-like skill list with a compact table/list hybrid.
+Use an "original dashboard layout, readable inventory UX" design:
+
+- Keep the cream/ink palette, 1px borders, 4px radius, and ASCII markers.
+- Use a readable system UI font stack for most interface text. Keep monospace only for the ASCII mark, inline markers, code paths, and editors.
+- Keep the left sidebar, center skill list, and right-side editor placement.
+- Add page size controls and pagination to the center skill list.
 - Keep the right-side detail/editor panel for full `SKILL.md` inspection and editing.
 - Add pagination with `10`, `30`, and `50` page-size options. Default to `30`.
 
@@ -31,16 +34,16 @@ Summary bar:
 
 - `Total`, `Editable`, `Read-only`, `Duplicates`, and `Sources`.
 
-Filter bar:
+List controls:
 
-- Source chips: `All`, `Codex`, `Claude`, `Agents`, `Plugin`.
-- Utility chips: `Duplicates`, `Editable only`.
-- Sort selector: initially `Name`.
 - Page size segmented control: `10`, `30`, `50`.
+- Pagination controls: `Prev`, compact page numbers, `Next`.
+- Range text: `Showing 31-60 of 369`.
 
 Main area:
 
-- Left: paginated skill inventory table/list.
+- Left: inventory metrics, source filters, editable targets, and creator CTA.
+- Center: paginated skill list.
 - Right: selected skill detail and editor.
 
 Pagination footer:
@@ -50,15 +53,14 @@ Pagination footer:
 
 ## Skill Row Design
 
-Each row should be one or two lines:
+Each row should preserve the original card-like list style:
 
 - Marker: `[ ]` or `[x]` for selected.
 - Name: primary visual anchor.
 - Source: `codex-user`, `claude-user`, `agents-user`, `plugin-cache`, etc.
-- Status badges: `[edit]`, `[ro]`, `[dup]`.
-- Description: one-line truncated preview.
+- Description: truncated preview.
 
-Rows should be dense enough for scanning but still readable. Selected rows get a soft background and `[x]` marker.
+Rows should stay familiar, not become a table. Selected rows get a soft background and `[x]` marker.
 
 ## Mobile Behavior
 
@@ -93,4 +95,3 @@ Duplicate status can be derived from `report.duplicate_names`. Editable status c
 - Run existing Python tests.
 - Verify `/api/state` still returns the full inventory.
 - Manually test search, source filters, duplicate filter, editable filter, page-size switching, pagination, selecting a skill, saving, archiving, language toggle, theme toggle, and mobile layout.
-
