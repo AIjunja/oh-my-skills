@@ -12,6 +12,13 @@ oh-my-skills answers a very simple question:
 It scans local skill directories, shows duplicates, lets you inspect and edit
 user-owned skills, and keeps system/plugin skills read-only.
 
+## Demo
+
+<video src="docs/assets/oh-my-skills-demo.mp4" controls muted playsinline width="100%"></video>
+
+If the embedded video does not render on GitHub, open the demo directly:
+[docs/assets/oh-my-skills-demo.mp4](docs/assets/oh-my-skills-demo.mp4)
+
 ## Features
 
 - Local browser GUI: search, filter, inspect, edit, create, and archive skills.

@@ -2,6 +2,13 @@
 
 [English README](README.md)
 
+## 데모
+
+<video src="docs/assets/oh-my-skills-demo.mp4" controls muted playsinline width="100%"></video>
+
+GitHub에서 영상이 바로 보이지 않으면 아래 파일을 열어주세요.
+[docs/assets/oh-my-skills-demo.mp4](docs/assets/oh-my-skills-demo.mp4)
+
 Codex, Claude, Agent Skills의 `SKILL.md` 폴더를 한 번에 관리하는 로컬 GUI/CLI입니다.
 
 oh-my-skills가 답하는 질문은 아주 단순합니다.
