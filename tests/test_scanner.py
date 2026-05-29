@@ -42,6 +42,33 @@ def test_report_finds_duplicates(tmp_path: Path) -> None:
     assert "~/." in markdown
 
 
+def test_scan_treats_skill_folder_as_leaf(tmp_path: Path) -> None:
+    home = tmp_path
+    skills_root = home / ".claude" / "skills"
+
+    # A normal, top-level skill.
+    write_skill(skills_root / "autoplan", name="autoplan")
+
+    # A skill that is itself a checkout vendoring per-agent mirrors and a
+    # nested copy of every skill (this is exactly how the gstack plugin ships).
+    write_skill(skills_root / "gstack", name="gstack")
+    write_skill(skills_root / "gstack" / "autoplan", name="autoplan")
+    write_skill(
+        skills_root / "gstack" / ".cursor" / "skills" / "gstack-autoplan",
+        name="autoplan",
+    )
+    write_skill(
+        skills_root / "gstack" / "node_modules" / "pkg" / "skills" / "dep",
+        name="dep",
+    )
+
+    records = scan_skills(default_roots(home), home=home)
+    names = sorted(record.name for record in records)
+
+    # gstack is counted once; nothing nested below a SKILL.md leaks in.
+    assert names == ["autoplan", "gstack"]
+
+
 def test_parse_frontmatter_supports_folded_descriptions() -> None:
     metadata = parse_frontmatter(
         "---\n"

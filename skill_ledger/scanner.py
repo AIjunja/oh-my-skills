@@ -1,11 +1,17 @@
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from hashlib import sha256
 from pathlib import Path
 from base64 import urlsafe_b64decode, urlsafe_b64encode
-from typing import Iterable
+from typing import Iterable, Iterator
+
+# Directories that never contain real, separately-loadable skills and that we
+# must not descend into (VCS internals and dependency trees can bundle their
+# own SKILL.md files that would inflate the inventory).
+PRUNE_DIRS = {".git", "node_modules"}
 
 
 @dataclass(frozen=True)
@@ -65,7 +71,7 @@ def scan_skills(
     for root in normalized_roots:
         if not root.path.exists():
             continue
-        for skill_path in sorted(root.path.rglob("SKILL.md"), key=lambda item: str(item).lower()):
+        for skill_path in iter_skill_files(root.path):
             resolved = skill_path.resolve()
             if resolved in seen_paths:
                 continue
@@ -73,6 +79,24 @@ def scan_skills(
             records.append(read_skill(skill_path, home=home, fallback_source=root.label))
 
     return sorted(records, key=lambda item: (item.name.lower(), item.source, str(item.path).lower()))
+
+
+def iter_skill_files(root: Path) -> Iterator[Path]:
+    """Yield SKILL.md paths, treating each skill folder as a leaf.
+
+    Once a directory contains a SKILL.md it is considered a single skill and
+    its sub-directories are NOT descended into. This prevents vendored copies
+    nested inside a skill — e.g. a skill folder that is itself a git checkout
+    bundling per-agent mirrors (.cursor/, .factory/, ...) — from each being
+    counted as a separate skill. VCS and dependency directories are pruned
+    outright as a safety net.
+    """
+    for dirpath, dirnames, filenames in os.walk(root):
+        if "SKILL.md" in filenames:
+            yield Path(dirpath) / "SKILL.md"
+            dirnames[:] = []  # a skill is a leaf — do not descend further
+            continue
+        dirnames[:] = [d for d in dirnames if d not in PRUNE_DIRS]
 
 
 def read_skill(path: Path, *, home: Path | None = None, fallback_source: str = "unknown") -> SkillRecord:
