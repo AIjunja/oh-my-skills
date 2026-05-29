@@ -4,9 +4,9 @@
 
 ## 데모
 
-<video src="docs/assets/oh-my-skills-demo.mp4" controls muted playsinline width="100%"></video>
+![oh-my-skills 데모 미리보기](docs/assets/oh-my-skills-demo-preview.gif)
 
-GitHub에서 영상이 바로 보이지 않으면 아래 파일을 열어주세요.
+전체 데모 영상 보기:
 [docs/assets/oh-my-skills-demo.mp4](docs/assets/oh-my-skills-demo.mp4)
 
 Codex, Claude, Agent Skills의 `SKILL.md` 폴더를 한 번에 관리하는 로컬 GUI/CLI입니다.

@@ -14,9 +14,9 @@ user-owned skills, and keeps system/plugin skills read-only.
 
 ## Demo
 
-<video src="docs/assets/oh-my-skills-demo.mp4" controls muted playsinline width="100%"></video>
+![oh-my-skills demo preview](docs/assets/oh-my-skills-demo-preview.gif)
 
-If the embedded video does not render on GitHub, open the demo directly:
+Watch the full demo video:
 [docs/assets/oh-my-skills-demo.mp4](docs/assets/oh-my-skills-demo.mp4)
 
 ## Features
